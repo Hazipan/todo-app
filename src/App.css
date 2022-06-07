@@ -8,17 +8,28 @@ html {
   color: white;
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 400;
-  font-size: 18px;
 }
 
 [data-theme='light'] {
-  --background: white;
+  --background: hsl(0, 0%, 98%);
+  --todo-background: hsl(236, 33%, 92%);
   --background-image: url('./images/bg-mobile-light.jpg');
+  --font-color: hsl(235, 19%, 35%);
+  --check-bubble: hsl(233, 11%, 84%);
 }
 
 [data-theme='dark'] {
-  --background: hsl(237, 14%, 26%);
+  --background: hsl(235, 21%, 11%);
+  --todo-background: hsl(235, 24%, 19%);
   --background-image: url('./images/bg-mobile-dark.jpg');
+  --font-color: hsl(234, 39%, 85%);
+  --check-bubble: hsl(237, 14%, 26%);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .app {
@@ -27,7 +38,7 @@ html {
   background-repeat: no-repeat;
   background-size: 100%;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 header {
@@ -39,11 +50,40 @@ header {
 .title {
   margin: 0;
   font-weight: 700;
-  letter-spacing: 20px;
+  letter-spacing: 1rem;
 }
 
 .icon {
   height: initial;
   width: auto;
   padding: 10px;
+}
+
+.todoContainer {
+  background-color: var(--todo-background);
+  border-radius: 15px;
+  margin: 0 30px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.checkBubble {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: 2px solid var(--check-bubble);
+  margin: 20px;
+  margin-right: 50px;
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+  color: var(--font-color);
+  font-size: 1rem;
+}
+
+.input:focus {
+  outline: none;
 }

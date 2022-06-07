@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import Input from './components/Input';
 import './App.css';
 
 const App = () => {
+  type Todo = {
+    completed: boolean,
+    value: string
+  };
   // state variables
   // mode for establish light mode or dark mode
   let [theme, setTheme] = useState('dark')
@@ -28,6 +33,7 @@ const App = () => {
         <h1 className='title'>TODO</h1>
         <img src={icon} alt='color theme switch' onClick={iconClick} className='icon' />
       </header>
+      <Input />
     </main>
     <footer>
 
