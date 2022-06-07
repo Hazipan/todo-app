@@ -9,7 +9,8 @@ const App = () => {
   };
   // state variables
   // mode for establish light mode or dark mode
-  let [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState('dark');
+  const [value, setValue] = useState('banana');
 
   // images for mode switch
   const sunIcon = './images/icon-sun.svg';
@@ -26,6 +27,16 @@ const App = () => {
     }
   }
 
+  const handleKeyPress = (e: any) => {
+    if (e.which === 13) {
+      console.log('enter pressed')
+    }
+  }
+
+  const handleChange = (e:any) => {
+    setValue(e.target.value);
+  }
+
   return(
     <div className='app' data-theme={theme}>
     <main>
@@ -33,7 +44,7 @@ const App = () => {
         <h1 className='title'>TODO</h1>
         <img src={icon} alt='color theme switch' onClick={iconClick} className='icon' />
       </header>
-      <Input />
+      <Input onKeyPress={handleKeyPress} value={value} onChange={handleChange} />
     </main>
     <footer>
 
