@@ -1,14 +1,15 @@
 const Input = (props: any) => {
     return(
-        <div className='todoContainer'>
+        <div className='inputContainer'>
             <div className='checkBubble' />
             <input 
                 type='text' 
-                placeholder='Create a new todo' 
+                placeholder='Create a new todo...' 
                 className='input' 
                 onKeyPress={props.onKeyPress}  
                 value={props.value}
-                onChange={props.handleChange}
+                onChange={props.onChange}
+                autoCapitalize='on'
             />
         </div>
     )

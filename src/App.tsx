@@ -10,14 +10,14 @@ const App = () => {
   // state variables
   // mode for establish light mode or dark mode
   const [theme, setTheme] = useState('dark');
-  const [value, setValue] = useState('banana');
+  const [value, setValue] = useState('');
 
   // images for mode switch
   const sunIcon = './images/icon-sun.svg';
   const moonIcon = './images/icon-moon.svg';
   let icon: string;
-  if(theme === 'light'){icon = sunIcon}
-  else{icon = moonIcon};
+  if(theme === 'light'){icon = moonIcon}
+  else{icon = sunIcon};
 
   const iconClick = () => {
     if(theme === 'light') {

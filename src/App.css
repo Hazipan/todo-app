@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
 
 html {
-  font-size: calc(15px + 0.390625vw);
+  font-size: 10px;
   display: block;
   padding: 0;
   margin: 0;
@@ -25,56 +25,54 @@ html {
   --font-color: hsl(234, 39%, 85%);
   --check-bubble: hsl(237, 14%, 26%);
 }
-
-main {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
 .app {
   background-color: var(--background);
   background-image: var(--background-image);
   background-repeat: no-repeat;
   background-size: 100%;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
+}
+
+main {
+  margin: 0 20px;
 }
 
 header {
   display: flex;
   justify-content: space-between;
-  padding: 60px 30px;
+  align-items: center;
+  padding: 25px 0;
 }
 
 .title {
   margin: 0;
-  font-weight: 700;
   letter-spacing: 1rem;
+  font-size: 2.2rem
 }
 
 .icon {
-  height: initial;
-  width: auto;
   padding: 10px;
+  height: 1.8rem;
+  width: auto;
 }
 
-.todoContainer {
+.inputContainer {
   background-color: var(--todo-background);
-  border-radius: 15px;
-  margin: 0 30px;
+  border-radius: 5px;
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 25px;
 }
 
 .checkBubble {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
   background-color: transparent;
   border: 2px solid var(--check-bubble);
-  margin: 20px;
-  margin-right: 50px;
+  margin: 15px;
+  margin-left: 20px;
 }
 
 .input {
@@ -82,6 +80,8 @@ header {
   border: none;
   color: var(--font-color);
   font-size: 1rem;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 400;
 }
 
 .input:focus {
