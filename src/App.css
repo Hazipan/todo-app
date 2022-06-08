@@ -173,3 +173,34 @@ header {
   text-decoration: line-through;
   color: var(--completed-color);
 }
+
+.filterContainer {
+  background-color: var(--todo-background);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0 30px;
+}
+
+.filterContainer button {
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 1.2rem;
+  color: var(--line-color);
+}
+
+.filterContainer button:focus {
+  outline: none;
+}
+
+.filterContainer button:hover {
+  cursor: pointer;
+  color: var(--hover-color);
+}
+
+.filterContainer .active {
+  color: var(--hover-color);
+}

@@ -8,6 +8,13 @@ const App = () => {
     completed: boolean,
     text: string,
   };
+
+  enum Filter{
+    All = 'ALL',
+    Active = 'ACTIVE',
+    Complete = 'COMPLETE'
+  }
+
   // state variables
   // theme for establishing light mode and dark mode
   const [theme, setTheme] = useState('dark');
@@ -17,6 +24,10 @@ const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   // list of completed todos
   const [compTodos, setCompTodos] = useState<Todo[]>([]);
+  // list of active todos for filtering purposes
+  const [activeTodos, setActiveTodods] = useState<Todo[]>([]);
+  // filter state to determine what todo list is displayed
+  const [filter, setFilter] = useState<Filter>(Filter.All);
 
 
   // images for mode switch
@@ -39,6 +50,7 @@ const App = () => {
     // Only act if the key pressed what the enter key
     if (e.which === 13) {
       setTodos(todos.concat({ completed: false, text: value }));
+      setActiveTodods(activeTodos.concat({ completed: false, text: value }));
       // reset value
       setValue('');
     }
@@ -60,6 +72,7 @@ const App = () => {
     setTodos(arr);
     // set completed todo array to be all completed items from the temp array
     setCompTodos(arr.filter(item => item.completed));
+    setActiveTodods(arr.filter(item => !item.completed));
   }
 
   const removeClick = (e: any) => {
@@ -67,6 +80,7 @@ const App = () => {
     const itemToRemove = todos[index];
     setTodos(todos.filter(item => item !== itemToRemove));
     setCompTodos(compTodos.filter(item => item !== itemToRemove));
+    setActiveTodods(activeTodos.filter(item => item !== itemToRemove));
   }
 
   const clearCompleted = () => {
@@ -79,7 +93,36 @@ const App = () => {
       tempComp.splice(tempComp.indexOf(itemToRemove), 1);
     }
     setTodos(tempTodo);
+    setActiveTodods(tempTodo);
     setCompTodos(tempComp);
+  }
+
+  const changeFilter = (e: any) => {
+    const filterButtons = [
+      document.getElementById('all'),
+      document.getElementById('active'),
+      document.getElementById('complete')
+    ]
+    const filter = e.target.value;
+    setFilter(filter);
+    
+    for(let i = 0; i < filterButtons.length; i++) {
+      filterButtons[i]?.classList.remove('active');
+    }
+    document.getElementById(e.target.id)?.classList.add('active');
+  }
+
+  let displayList = todos;
+
+  switch(filter) {
+    case Filter.All:
+      displayList = todos;
+      break;
+    case Filter.Active:
+      displayList = activeTodos;
+      break;
+    default:
+      displayList = compTodos;
   }
 
   return (
@@ -91,7 +134,7 @@ const App = () => {
         </header>
         <Input onKeyPress={handleKeyPress} value={value} onChange={handleChange} />
         <div className='todoContainer'>
-          {todos.map((el, i) => {
+        {displayList.map((el, i) => {
             return (
               <Todo
                 key={i}
@@ -105,8 +148,13 @@ const App = () => {
           })}
           <div className='todoFooter'>
             <p>{todos.length - compTodos.length} items left</p>
-            <button className='clearButton' onClick={clearCompleted}>Clear Completed</button>
+            <button type='button' className='clearButton' onClick={clearCompleted}>Clear Completed</button>
           </div>
+        </div>
+        <div className='filterContainer'>
+          <button type='button' className='active' id='all' value={Filter.All} onClick={changeFilter}>All</button>
+          <button type='button' id='active' value={Filter.Active} onClick={changeFilter}>Active</button>
+          <button type='button' id='complete' value={Filter.Complete} onClick={changeFilter}>Complete</button>
         </div>
       </main>
       <footer>
