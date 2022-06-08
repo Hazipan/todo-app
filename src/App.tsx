@@ -6,15 +6,18 @@ import './App.css';
 const App = () => {
   type Todo = {
     completed: boolean,
-    text: string
+    text: string,
   };
   // state variables
-  // theme state for establishing light mode and dark mode
+  // theme for establishing light mode and dark mode
   const [theme, setTheme] = useState('dark');
-  // value state for todo item input
+  // value for todo item input
   const [value, setValue] = useState('');
-  // todos state for array of todo items
+  // todos list
   const [todos, setTodos] = useState<Todo[]>([]);
+  // list of completed todos
+  const [compTodos, setCompTodos] = useState<Todo[]>([]);
+
 
   // images for mode switch
   const sunIcon = './images/icon-sun.svg';
@@ -46,13 +49,22 @@ const App = () => {
   }
 
   const todoClick = (e: any) => {
-    console.log('todo clicked!');
+    const index = e.target.tabIndex;
+    // spread todo array accross a new array for manipulation
+    const arr = [...todos];
+    // flip the completed status of the element that matches the item clicked
+    arr[index].completed = !arr[index].completed;
+    // set todo array to be temp array
+    setTodos(arr);
+    // set completed todo array to be all completed items from the temp array
+    setCompTodos(arr.filter(item => item.completed));
   }
 
   const removeClick = (e: any) => {
-    const index = e.target.alt;
+    const index = e.target.tabIndex;
     const itemToRemove = todos[index];
-    setTodos(todos.filter(item => item !== itemToRemove))
+    setTodos(todos.filter(item => item !== itemToRemove));
+    setCompTodos(compTodos.filter(item => item !== itemToRemove));
   }
 
   return (
@@ -77,7 +89,7 @@ const App = () => {
             )
           })}
           <div className='todoFooter'>
-            <p>{todos.length} items left</p>
+            <p>{todos.length - compTodos.length} items left</p>
             <button className='clearButton'>Clear Completed</button>
           </div>
         </div>

@@ -16,6 +16,7 @@ html {
   --font-color: hsl(235, 19%, 35%);
   --check-bubble: hsl(233, 11%, 84%);
   --line-color: hsl(233, 11%, 84%);
+  --completed-color: hsl(233, 11%, 84%);
 }
 
 [data-theme='dark'] {
@@ -24,7 +25,8 @@ html {
   --background-image: url('./images/bg-mobile-dark.jpg');
   --font-color: hsl(234, 39%, 85%);
   --check-bubble: hsl(237, 14%, 26%);
-  --line-color: hsl(233, 14%, 35%)
+  --line-color: hsl(233, 14%, 35%);
+  --completed-color: hsl(233, 14%, 35%);
 }
 .app {
   background-color: var(--background);
@@ -87,6 +89,7 @@ header {
   font-size: 1rem;
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 400;
+  width: 300px;
 }
 
 .input:focus {
@@ -146,4 +149,13 @@ header {
   color: var(--font-color);
   font-family: inherit;
   font-size: inherit;
+}
+
+.completed div img {
+  opacity: 1;
+}
+
+.completed p {
+  text-decoration: line-through;
+  color: var(--completed-color);
 }
