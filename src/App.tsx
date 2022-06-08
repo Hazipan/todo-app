@@ -49,12 +49,14 @@ const App = () => {
   }
 
   const todoClick = (e: any) => {
+    // store index number from target's tabIndex
+    // I used tabIndex to store each todo's key value / index number
     const index = e.target.tabIndex;
-    // spread todo array accross a new array for manipulation
+    // spread todo array accross a new temp array for manipulation
     const arr = [...todos];
-    // flip the completed status of the element that matches the item clicked
+    // flip the completed status of the element at the index recieved from the event
     arr[index].completed = !arr[index].completed;
-    // set todo array to be temp array
+    // update todo array to match the temp array
     setTodos(arr);
     // set completed todo array to be all completed items from the temp array
     setCompTodos(arr.filter(item => item.completed));
@@ -65,6 +67,19 @@ const App = () => {
     const itemToRemove = todos[index];
     setTodos(todos.filter(item => item !== itemToRemove));
     setCompTodos(compTodos.filter(item => item !== itemToRemove));
+  }
+
+  const clearCompleted = () => {
+    const temp = [...compTodos];
+    let tempTodo = [...todos];
+    let tempComp = [...compTodos];
+    for(let i = 0; i < temp.length; i++) {
+      let itemToRemove = temp[i];
+      tempTodo.splice(tempTodo.indexOf(itemToRemove), 1);
+      tempComp.splice(tempComp.indexOf(itemToRemove), 1);
+    }
+    setTodos(tempTodo);
+    setCompTodos(tempComp);
   }
 
   return (
@@ -90,7 +105,7 @@ const App = () => {
           })}
           <div className='todoFooter'>
             <p>{todos.length - compTodos.length} items left</p>
-            <button className='clearButton'>Clear Completed</button>
+            <button className='clearButton' onClick={clearCompleted}>Clear Completed</button>
           </div>
         </div>
       </main>

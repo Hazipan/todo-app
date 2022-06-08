@@ -17,6 +17,7 @@ html {
   --check-bubble: hsl(233, 11%, 84%);
   --line-color: hsl(233, 11%, 84%);
   --completed-color: hsl(233, 11%, 84%);
+  --hover-color: hsl(220, 98%, 61%);
 }
 
 [data-theme='dark'] {
@@ -27,6 +28,7 @@ html {
   --check-bubble: hsl(237, 14%, 26%);
   --line-color: hsl(233, 14%, 35%);
   --completed-color: hsl(233, 14%, 35%);
+  --hover-color: hsl(220, 98%, 61%);
 }
 .app {
   background-color: var(--background);
@@ -40,6 +42,7 @@ html {
 
 main {
   margin: 0 20px;
+  max-width: 400px;
 }
 
 header {
@@ -52,7 +55,8 @@ header {
 .title {
   margin: 0;
   letter-spacing: 1rem;
-  font-size: 2.2rem
+  font-size: 2.2rem;
+  color: white;
 }
 
 .icon {
@@ -141,14 +145,24 @@ header {
   align-items: center;
   height: 50px;
   padding: 0 30px;
+  color: var(--completed-color);
 }
 
 .clearButton {
   background-color: transparent;
   border: none;
-  color: var(--font-color);
+  color: var(--completed-color);
   font-family: inherit;
   font-size: inherit;
+}
+
+.clearButton:hover {
+  cursor: pointer;
+  color: var(--hover-color);
+}
+
+.clearButton:focus {
+  outline: none;
 }
 
 .completed div img {
