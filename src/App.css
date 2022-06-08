@@ -13,6 +13,7 @@ html {
   --background: hsl(236, 33%, 92%);
   --todo-background: hsl(0, 0%, 98%);
   --background-image: url('./images/bg-mobile-light.jpg');
+  --big-background: url('./images/bg-desktop-light.jpg');
   --font-color: hsl(235, 19%, 35%);
   --check-bubble: hsl(233, 11%, 84%);
   --line-color: hsl(233, 11%, 84%);
@@ -24,6 +25,7 @@ html {
   --background: hsl(235, 21%, 11%);
   --todo-background: hsl(235, 24%, 19%);
   --background-image: url('./images/bg-mobile-dark.jpg');
+  --big-background: url('./images/bg-desktop-dark.jpg');
   --font-color: hsl(234, 39%, 85%);
   --check-bubble: hsl(237, 14%, 26%);
   --line-color: hsl(233, 14%, 35%);
@@ -38,11 +40,15 @@ html {
   background-size: 100%;
   width: 100%;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 main {
   margin: 0 20px;
-  max-width: 400px;
+  max-width: 600px;
 }
 
 header {
@@ -54,7 +60,7 @@ header {
 
 .title {
   margin: 0;
-  letter-spacing: 1rem;
+  letter-spacing: 10px;
   font-size: 2.2rem;
   color: white;
 }
@@ -71,6 +77,8 @@ header {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 25px;
+  width: 80vw;
+  max-width: 600px;
 }
 
 .checkBubble {
@@ -203,4 +211,25 @@ header {
 
 .filterContainer .active {
   color: var(--hover-color);
+}
+
+@media(min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
+  .app {
+    background-image: var(--big-background);
+  }
+
+  .checkBubble {
+    width: 20px;
+    height: 20px;
+  }
+
+  .remove {
+    padding-right: 20px;
+    height: 15px;
+    width: auto;
+  }
 }
