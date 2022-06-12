@@ -108,6 +108,10 @@ header {
   outline: none;
 }
 
+.input:hover {
+  cursor: pointer;
+}
+
 .todoContainer {
   background-color: var(--todo-background);
   border-radius: 5px;
@@ -131,6 +135,10 @@ header {
   align-items: center;
 }
 
+.todoContent:hover {
+  cursor: pointer;
+}
+
 .check {
   background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
   border-radius: 50%;
@@ -144,6 +152,10 @@ header {
   padding-right: 15px;
   height: 10px;
   width: auto;
+}
+
+.remove:hover {
+  cursor: pointer;
 }
 
 .todoFooter {
