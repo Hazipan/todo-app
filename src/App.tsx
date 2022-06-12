@@ -112,6 +112,26 @@ const App = () => {
     document.getElementById(e.target.id)?.classList.add('active');
   }
 
+  const allowDrag = (e: any) => {
+    e.preventDefault();
+  }
+
+  const drag = (e: any) => {
+    e.dataTransfer.setData('index', e.target.id);
+  }
+
+  const drop = (e: any) => {
+    e.preventDefault();
+    const itemToMove = todos[e.dataTransfer.getData('index')];
+    const itemToMoveTo = todos[e.target.id];
+
+    let tempTodos = [...todos];
+    tempTodos.splice(tempTodos.indexOf(itemToMove), 1);
+    const indexToMoveTo = tempTodos.indexOf(itemToMoveTo);
+
+    setTodos(tempTodos.slice(0, indexToMoveTo).concat(itemToMove).concat(tempTodos.slice(indexToMoveTo)));
+  }
+
   let displayList = todos;
 
   switch(filter) {
@@ -143,6 +163,9 @@ const App = () => {
                 completed={el.completed}
                 todoClick={todoClick}
                 removeClick = {removeClick}
+                drag={drag}
+                drop={drop}
+                allowDrag={allowDrag}
               />
             )
           })}

@@ -4,7 +4,7 @@ const Todo = (props: any) => {
         completed = ' completed'
     }
     return (
-        <div className='todo' draggable={true}>
+        <div className='todo' draggable={true} onDrop={props.drop} onDragStart={props.drag} onDragOver={props.allowDrag} id={props.index}>
             <div className={`todoContent${completed}`} onClick={props.todoClick} tabIndex={props.index}>
                 <div className='checkBubble' tabIndex={props.index}>
                     <img className='check' src='./images/icon-check.svg' alt='complete' tabIndex={props.index} />

@@ -71,6 +71,10 @@ header {
   width: auto;
 }
 
+.icon:hover {
+  cursor: pointer;
+}
+
 .inputContainer {
   background-color: var(--todo-background);
   border-radius: 5px;
