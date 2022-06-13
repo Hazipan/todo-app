@@ -19,6 +19,7 @@ html {
   --line-color: hsl(233, 11%, 84%);
   --completed-color: hsl(233, 11%, 74%);
   --hover-color: hsl(220, 98%, 61%);
+  --link-color: hsl(220, 100%, 78%);
 }
 
 [data-theme='dark'] {
@@ -31,6 +32,7 @@ html {
   --line-color: hsl(233, 14%, 35%);
   --completed-color: hsl(233, 14%, 35%);
   --hover-color: hsl(220, 98%, 61%);
+  --link-color: hsl(220, 62%, 34%);
 }
 .app {
   background-color: var(--background);
@@ -232,6 +234,21 @@ header {
 .instructions {
   text-align: center;
   color: var(--completed-color);
+}
+
+footer {
+  font-size: 12px;
+  text-align: center;
+}
+
+footer p {
+  margin: 0;
+  padding: 0;
+  color: var(--completed-color)
+}
+
+footer a {
+  color: var(--link-color);
 }
 
 @media(min-width: 768px) {
