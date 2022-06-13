@@ -125,6 +125,7 @@ header {
   flex-direction: column;
   justify-content: flex-start;
   margin-bottom: 25px;
+  width: 90%;
 }
 
 .todo {
@@ -139,6 +140,11 @@ header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+}
+
+.todoContent p {
+  word-break: break-all;
+  width: 70%;
 }
 
 .todoContent:hover {
