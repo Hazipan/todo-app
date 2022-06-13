@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Droppable } from 'react-beautiful-dnd';
 import Input from './components/Input';
@@ -18,19 +18,26 @@ const App = () => {
   }
 
   // state variables
-  // theme for establishing light mode and dark mode
-  const [theme, setTheme] = useState('dark');
-  // value for todo item input
+  const [theme, setTheme] = useState(
+    ():string => {return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'}
+  );
   const [value, setValue] = useState('');
-  // todos list
-  const [todos, setTodos] = useState<Todo[]>([]);
-  // list of completed todos
-  const [compTodos, setCompTodos] = useState<Todo[]>([]);
-  // list of active todos for filtering purposes
-  const [activeTodos, setActiveTodods] = useState<Todo[]>([]);
-  // filter state to determine what todo list is displayed
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    return localStorage.getItem('todos') === null ? [] : JSON.parse(localStorage.getItem('todos'));
+  });
+  const [compTodos, setCompTodos] = useState<Todo[]>(() => {
+    return localStorage.getItem('compTodos') === null ? [] : JSON.parse(localStorage.getItem('compTodos'));
+  });
+  const [activeTodos, setActiveTodods] = useState<Todo[]>(() => {
+    return localStorage.getItem('activeTodos') === null ? [] : JSON.parse(localStorage.getItem('activeTodos'));
+  });
   const [filter, setFilter] = useState<Filter>(Filter.All);
 
+  // Persist state using local storage
+  useEffect(() => {localStorage.setItem('theme', theme);});
+  useEffect(() => {localStorage.setItem('todos', JSON.stringify(todos))})
+  useEffect(() => {localStorage.setItem('activeTodos', JSON.stringify(activeTodos))})
+  useEffect(() => {localStorage.setItem('compTodos', JSON.stringify(compTodos))})
 
   // images for mode switch
   const sunIcon = './images/icon-sun.svg';
