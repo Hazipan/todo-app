@@ -17,7 +17,7 @@ html {
   --font-color: hsl(235, 19%, 35%);
   --check-bubble: hsl(233, 11%, 84%);
   --line-color: hsl(233, 11%, 84%);
-  --completed-color: hsl(233, 11%, 84%);
+  --completed-color: hsl(233, 11%, 74%);
   --hover-color: hsl(220, 98%, 61%);
 }
 
@@ -126,7 +126,7 @@ header {
 }
 
 .todo {
-  background-color: transparent;
+  background-color: inherit;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -227,6 +227,11 @@ header {
 
 .filterContainer .active {
   color: var(--hover-color);
+}
+
+.instructions {
+  text-align: center;
+  color: var(--completed-color);
 }
 
 @media(min-width: 768px) {

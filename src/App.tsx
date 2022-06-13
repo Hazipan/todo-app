@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import Input from './components/Input';
 import Todo from './components/Todo';
 import './App.css';
@@ -9,7 +11,7 @@ const App = () => {
     text: string,
   };
 
-  enum Filter{
+  enum Filter {
     All = 'ALL',
     Active = 'ACTIVE',
     Complete = 'COMPLETE'
@@ -87,7 +89,7 @@ const App = () => {
     const temp = [...compTodos];
     let tempTodo = [...todos];
     let tempComp = [...compTodos];
-    for(let i = 0; i < temp.length; i++) {
+    for (let i = 0; i < temp.length; i++) {
       let itemToRemove = temp[i];
       tempTodo.splice(tempTodo.indexOf(itemToRemove), 1);
       tempComp.splice(tempComp.indexOf(itemToRemove), 1);
@@ -105,36 +107,55 @@ const App = () => {
     ]
     const filter = e.target.value;
     setFilter(filter);
-    
-    for(let i = 0; i < filterButtons.length; i++) {
+
+    for (let i = 0; i < filterButtons.length; i++) {
       filterButtons[i]?.classList.remove('active');
     }
     document.getElementById(e.target.id)?.classList.add('active');
   }
 
-  const allowDrag = (e: any) => {
-    e.preventDefault();
-  }
+  const onDragEnd = (result) => {
+    // redorder the components
+    const { destination, source } = result;
 
-  const drag = (e: any) => {
-    e.dataTransfer.setData('index', e.target.id);
-  }
+    if (!destination) {
+      return;
+    }
 
-  const drop = (e: any) => {
-    e.preventDefault();
-    const itemToMove = todos[e.dataTransfer.getData('index')];
-    const itemToMoveTo = todos[e.target.id];
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
 
-    let tempTodos = [...todos];
-    tempTodos.splice(tempTodos.indexOf(itemToMove), 1);
-    const indexToMoveTo = tempTodos.indexOf(itemToMoveTo);
+    if (filter === Filter.All) {
+      const temp = [...todos];
+      const itemToMove = todos[source.index];
+      temp.splice(source.index, 1);
+      temp.splice(destination.index, 0, itemToMove);
 
-    setTodos(tempTodos.slice(0, indexToMoveTo).concat(itemToMove).concat(tempTodos.slice(indexToMoveTo)));
+      setTodos(temp);
+    } else if (filter === Filter.Active) {
+      const temp = [...activeTodos];
+      const itemToMove = activeTodos[source.index];
+      temp.splice(source.index, 1);
+      temp.splice(destination.index, 0, itemToMove);
+
+      setActiveTodods(temp);
+    } else if (filter === Filter.Complete) {
+      const temp = [...compTodos];
+      const itemToMove = compTodos[source.index];
+      temp.splice(source.index, 1);
+      temp.splice(destination.index, 0, itemToMove);
+
+      setCompTodos(temp);
+    }
   }
 
   let displayList = todos;
 
-  switch(filter) {
+  switch (filter) {
     case Filter.All:
       displayList = todos;
       break;
@@ -153,32 +174,37 @@ const App = () => {
           <img src={icon} alt='color theme switch' onClick={iconClick} className='icon' />
         </header>
         <Input onKeyPress={handleKeyPress} value={value} onChange={handleChange} />
-        <div className='todoContainer'>
-        {displayList.map((el, i) => {
-            return (
-              <Todo
-                key={i}
-                index={i}
-                text={el.text}
-                completed={el.completed}
-                todoClick={todoClick}
-                removeClick = {removeClick}
-                drag={drag}
-                drop={drop}
-                allowDrag={allowDrag}
-              />
-            )
-          })}
-          <div className='todoFooter'>
-            <p>{todos.length - compTodos.length} items left</p>
-            <button type='button' className='clearButton' onClick={clearCompleted}>Clear Completed</button>
-          </div>
-        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId='taskList'>
+            {(provided) => (
+              <div className='todoContainer' {...provided.droppableProps} ref={provided.innerRef}>
+                {displayList.map((el, i) => {
+                  return (
+                    <Todo
+                      key={i}
+                      index={i}
+                      text={el.text}
+                      completed={el.completed}
+                      todoClick={todoClick}
+                      removeClick={removeClick}
+                    />
+                  )
+                })}
+                {provided.placeholder}
+                <div className='todoFooter'>
+                  <p>{todos.length - compTodos.length} items left</p>
+                  <button type='button' className='clearButton' onClick={clearCompleted}>Clear Completed</button>
+                </div>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
         <div className='filterContainer'>
           <button type='button' className='active' id='all' value={Filter.All} onClick={changeFilter}>All</button>
           <button type='button' id='active' value={Filter.Active} onClick={changeFilter}>Active</button>
           <button type='button' id='complete' value={Filter.Complete} onClick={changeFilter}>Complete</button>
         </div>
+        <p className='instructions'>Drag and drop to reorder the list</p>
       </main>
       <footer>
 
