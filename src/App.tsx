@@ -207,7 +207,7 @@ const App = () => {
         <p className='instructions'>Drag and drop to reorder the list</p>
       </main>
       <footer>
-        <p>Coded by <a href='https://github.com/Hazipan/'>Aaron Rutherford</a>. Challenge by <a href='fontendmentor.io'>Frontend Mentor</a></p>
+        <p>Coded by <a href='https://github.com/Hazipan/'>Aaron Rutherford</a>. Challenge by <a href='https://www.frontendmentor.io/'>Frontend Mentor</a></p>
         <a href='https://github.com/Hazipan/todo-app/'>See the code!</a>
       </footer>
     </div>
