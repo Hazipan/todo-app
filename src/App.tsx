@@ -194,7 +194,7 @@ const App = () => {
                 })}
                 {provided.placeholder}
                 <div className='todoFooter'>
-                  <p>{todos.length} items left</p>
+                  <p>{todos.length - todos.filter(item => item.completed).length} items left</p>
                   <button type='button' className='clearButton' onClick={clearCompleted}>Clear Completed</button>
                 </div>
               </div>
