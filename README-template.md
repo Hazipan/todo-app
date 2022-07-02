@@ -13,7 +13,7 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
   - [What I learned](#what-i-learned)
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
-- [Author](#author)
+- [Author](#author)rt
 - [Acknowledgments](#acknowledgments)
 
 **Note: Delete this note and update the table of contents based on what sections you keep.**

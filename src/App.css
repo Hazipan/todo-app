@@ -34,6 +34,7 @@ html {
   --hover-color: hsl(220, 98%, 61%);
   --link-color: hsl(220, 62%, 34%);
 }
+
 .app {
   background-color: var(--background);
   background-image: var(--background-image);
@@ -49,8 +50,14 @@ html {
 }
 
 main {
-  margin: 0 20px;
+  margin: 0 0px;
   max-width: 600px;
+  min-width: 300px;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 header {
@@ -58,6 +65,9 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 25px 0;
+  max-width: 600px;
+  min-width: 300px;
+  width: 95%;
 }
 
 .title {
@@ -83,8 +93,7 @@ header {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 25px;
-  width: 80vw;
-  max-width: 600px;
+  width: inherit;
 }
 
 .checkBubble {
@@ -125,8 +134,7 @@ header {
   flex-direction: column;
   justify-content: flex-start;
   margin-bottom: 25px;
-  width: 80vw;
-  max-width: 600px;
+  width: inherit;
 }
 
 .todo {
@@ -137,7 +145,12 @@ header {
   border-bottom: 1px solid var(--line-color);
 }
 
-.todoContent{
+
+.noDisplay {
+  display: none;
+}
+
+.todoContent {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -145,7 +158,7 @@ header {
 
 .todoContent p {
   word-break: break-all;
-  width: 80%;
+  padding-right: 10px;
 }
 
 .todoContent:hover {
@@ -215,6 +228,9 @@ header {
   align-items: center;
   height: 50px;
   padding: 0 30px;
+  max-width: 600px;
+  min-width: calc(300px - 60px);
+  width: 75%;
 }
 
 .filterContainer button {

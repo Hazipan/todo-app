@@ -9,6 +9,7 @@ const App = () => {
   type Todo = {
     completed: boolean,
     text: string,
+    visible: boolean
   };
 
   enum Filter {
@@ -19,25 +20,17 @@ const App = () => {
 
   // state variables
   const [theme, setTheme] = useState(
-    ():string => {return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'}
+    (): string => { return localStorage.getItem('theme') === 'dark' ? 'dark' : 'light' }
   );
   const [value, setValue] = useState('');
   const [todos, setTodos] = useState<Todo[]>(() => {
     return localStorage.getItem('todos') === null ? [] : JSON.parse(localStorage.getItem('todos'));
   });
-  const [compTodos, setCompTodos] = useState<Todo[]>(() => {
-    return localStorage.getItem('compTodos') === null ? [] : JSON.parse(localStorage.getItem('compTodos'));
-  });
-  const [activeTodos, setActiveTodods] = useState<Todo[]>(() => {
-    return localStorage.getItem('activeTodos') === null ? [] : JSON.parse(localStorage.getItem('activeTodos'));
-  });
-  const [filter, setFilter] = useState<Filter>(Filter.All);
+
 
   // Persist state using local storage
-  useEffect(() => {localStorage.setItem('theme', theme);});
-  useEffect(() => {localStorage.setItem('todos', JSON.stringify(todos))})
-  useEffect(() => {localStorage.setItem('activeTodos', JSON.stringify(activeTodos))})
-  useEffect(() => {localStorage.setItem('compTodos', JSON.stringify(compTodos))})
+  useEffect(() => { localStorage.setItem('theme', theme); });
+  useEffect(() => { localStorage.setItem('todos', JSON.stringify(todos)) });
 
   // images for mode switch
   const sunIcon = './images/icon-sun.svg';
@@ -56,10 +49,9 @@ const App = () => {
   }
 
   const handleKeyPress = (e: any) => {
-    // Only act if the key pressed what the enter key
+    // Only act if the key pressed was the enter key
     if (e.which === 13) {
-      setTodos(todos.concat({ completed: false, text: value }));
-      setActiveTodods(activeTodos.concat({ completed: false, text: value }));
+      setTodos(todos.concat({ completed: false, text: value, visible: true }));
       // reset value
       setValue('');
     }
@@ -77,33 +69,29 @@ const App = () => {
     const arr = [...todos];
     // flip the completed status of the element at the index recieved from the event
     arr[index].completed = !arr[index].completed;
+    // remove the completed element and put it at the end of the list
+    if (arr[index].completed) {
+      const completedItem = arr[index];
+      let newArr = arr.filter(item => item !== completedItem);
+      newArr.push(completedItem);
+      setTodos(newArr)
+    } else {
+      setTodos(arr);
+    }
     // update todo array to match the temp array
-    setTodos(arr);
+    //setTodos(arr);
     // set completed todo array to be all completed items from the temp array
-    setCompTodos(arr.filter(item => item.completed));
-    setActiveTodods(arr.filter(item => !item.completed));
+
   }
 
   const removeClick = (e: any) => {
     const index = e.target.tabIndex;
-    const itemToRemove = todos[index];
-    setTodos(todos.filter(item => item !== itemToRemove));
-    setCompTodos(compTodos.filter(item => item !== itemToRemove));
-    setActiveTodods(activeTodos.filter(item => item !== itemToRemove));
+    setTodos(todos.filter(item => item !== todos[index]));
   }
 
   const clearCompleted = () => {
-    const temp = [...compTodos];
-    let tempTodo = [...todos];
-    let tempComp = [...compTodos];
-    for (let i = 0; i < temp.length; i++) {
-      let itemToRemove = temp[i];
-      tempTodo.splice(tempTodo.indexOf(itemToRemove), 1);
-      tempComp.splice(tempComp.indexOf(itemToRemove), 1);
-    }
-    setTodos(tempTodo);
-    setActiveTodods(tempTodo);
-    setCompTodos(tempComp);
+    console.log('clearing completed tasks');
+    setTodos(todos.filter(item => !item.completed));
   }
 
   const changeFilter = (e: any) => {
@@ -113,12 +101,47 @@ const App = () => {
       document.getElementById('complete')
     ]
     const filter = e.target.value;
-    setFilter(filter);
+    let temp = [...todos];
+
+    switch (filter) {
+      case Filter.All:
+        console.log('showing all tasks')
+        for (let i = 0; i < temp.length; i++) {
+          temp[i].visible = true;
+        }
+        break;
+      case Filter.Active:
+        console.log('hiding completed tasks')
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i].completed) {
+            temp[i].visible = false;
+          } else {
+            temp[i].visible = true;
+          }
+          console.log(`${temp[i].text} set to ${temp[i].visible}`);
+        }
+        break;
+      case Filter.Complete:
+        console.log('hiding active tasks')
+        for (let i = 0; i < temp.length; i++) {
+
+          if (!temp[i].completed) {
+            temp[i].visible = false;
+          } else {
+            temp[i].visible = true;
+          }
+          console.log(`${temp[i].text} set to ${temp[i].visible}`);
+        }
+        break;
+      default:
+    }
 
     for (let i = 0; i < filterButtons.length; i++) {
       filterButtons[i]?.classList.remove('active');
     }
     document.getElementById(e.target.id)?.classList.add('active');
+
+    setTodos(temp);
   }
 
   const onDragEnd = (result) => {
@@ -136,41 +159,12 @@ const App = () => {
       return;
     }
 
-    if (filter === Filter.All) {
-      const temp = [...todos];
-      const itemToMove = todos[source.index];
-      temp.splice(source.index, 1);
-      temp.splice(destination.index, 0, itemToMove);
+    const temp = [...todos];
+    const itemToMove = todos[source.index];
+    temp.splice(source.index, 1);
+    temp.splice(destination.index, 0, itemToMove);
 
-      setTodos(temp);
-    } else if (filter === Filter.Active) {
-      const temp = [...activeTodos];
-      const itemToMove = activeTodos[source.index];
-      temp.splice(source.index, 1);
-      temp.splice(destination.index, 0, itemToMove);
-
-      setActiveTodods(temp);
-    } else if (filter === Filter.Complete) {
-      const temp = [...compTodos];
-      const itemToMove = compTodos[source.index];
-      temp.splice(source.index, 1);
-      temp.splice(destination.index, 0, itemToMove);
-
-      setCompTodos(temp);
-    }
-  }
-
-  let displayList = todos;
-
-  switch (filter) {
-    case Filter.All:
-      displayList = todos;
-      break;
-    case Filter.Active:
-      displayList = activeTodos;
-      break;
-    default:
-      displayList = compTodos;
+    setTodos(temp);
   }
 
   return (
@@ -185,7 +179,7 @@ const App = () => {
           <Droppable droppableId='taskList'>
             {(provided) => (
               <div className='todoContainer' {...provided.droppableProps} ref={provided.innerRef}>
-                {displayList.map((el, i) => {
+                {todos.map((el, i) => {
                   return (
                     <Todo
                       key={i}
@@ -194,12 +188,13 @@ const App = () => {
                       completed={el.completed}
                       todoClick={todoClick}
                       removeClick={removeClick}
+                      visible={el.visible}
                     />
                   )
                 })}
                 {provided.placeholder}
                 <div className='todoFooter'>
-                  <p>{todos.length - compTodos.length} items left</p>
+                  <p>{todos.length} items left</p>
                   <button type='button' className='clearButton' onClick={clearCompleted}>Clear Completed</button>
                 </div>
               </div>

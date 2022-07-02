@@ -2,14 +2,18 @@ import { Draggable } from 'react-beautiful-dnd';
 
 const Todo = (props: any) => {
     let completed = '';
+    let visible = ''
     if (props.completed) {
         completed = ' completed'
+    }
+    if (!props.visible) {
+        visible = 'noDisplay'
     }
     return (
         <Draggable draggableId={`task${props.index}`} index={props.index}>
             {(provided) => (
                 <div
-                    className='todo'
+                    className={`${visible} todo`}
                     id={props.index}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
